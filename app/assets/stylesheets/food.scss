@@ -1,0 +1,15 @@
+// Place all the styles related to the Food controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+.week-selector {
+  text-align: center;
+  height: 24px;
+  line-height: 24px;
+  a {
+    vertical-align: top;
+    text-decoration: none;
+    color: black;
+  }
+}

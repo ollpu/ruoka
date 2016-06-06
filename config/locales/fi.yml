@@ -1,0 +1,13 @@
+
+fi:
+  date:
+    formats:
+      short: "%a %-d.%-m."
+    abbr_day_names:
+      - Su
+      - Ma
+      - Ti
+      - Ke
+      - To
+      - Pe
+      - La
