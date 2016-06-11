@@ -1,10 +1,13 @@
 class FoodController < ApplicationController
   def index
     @week = if params[:week_no].present?
-      Week.find_by_week_no params[:week_no]
-      # todo: record not found
+      begin
+        Week.find_or_create params[:week_no]
+      rescue ArgumentError
+        head 400 # Better error page, maybe?
+      end
     else
-      Week.current
+      Week.current_or_create
     end
   end
 end

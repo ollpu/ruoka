@@ -33,7 +33,7 @@ namespace :list do
         if raw.lines.count > 1
           # Iterate over each line in raw with index
           raw.each_line.each_with_index do |line, i|
-            if line =~ / \/$/ # If current line ends in " /"
+            if line.end_with(' /')
               # Signifies that the current line describes the main food,
               # and the next row wil describe the vegetable option
               if i == 1
@@ -48,6 +48,14 @@ namespace :list do
             elsif vegetable_next
               day_h[:vegetable] = line.strip
               vegetable_next = false
+            elsif i == 1 && day_h[:main].end_with?('n')
+              # If the first (main-food) line ended in an n, the next row is
+              # probably a continuation of the first row.
+              # This is a very weak way of detecting this, but it works in a
+              # couple of cases.
+              # I found no counter-examples to this (no actual main-course
+              # foods end in an n).
+              day_h[:main] << " " << line.strip
             else
               side << line.strip
             end
@@ -55,7 +63,7 @@ namespace :list do
           day_h[:side] = side
         else
           # Single-liners are usually holidays or something other special
-          day_h[:special] = raw.strip
+          day_h[:info] = raw.strip
         end
         week << day_h
       end

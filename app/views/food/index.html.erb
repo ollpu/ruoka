@@ -1,23 +1,27 @@
 <div class="week-selector">
   <%= link_to 'chevron_left', week_no_path(@week.previous_week_no), class: 'material-icons' %>
-  Viikko <%= @week.week_no_without_year %>
+  <%= @week.year %> viikko <%= @week.week_no_without_year %>
   <%= link_to 'chevron_right', week_no_path(@week.next_week_no), class: 'material-icons' %>
 </div>
-<% @week.days_each do |day| %>
-  <div class="food-day" data-date="<%= day.date %>">
-    <%= l Date.parse(day.date), format: :short %>
-    <div class="special"><%= day.special %></div>
-    <% if day.main.present? %>
-      <div class="main">Pääruoka: <%= day.main %></div>
-    <% end %>
-    <% if day.vegetable.present? %>
-      <div class="vegetable">Kasvisruoka: <%= day.vegetable %></div>
-    <% end %>
-    <% if day.side.present? %>
-      <div class="side">
-        Lisäksi:
-        <%= day.side.join(', ') %>
-      </div>
-    <% end %>
-  </div>
+<% if @week.days.present? and @week.days.count %>
+  <% @week.days_each do |day| %>
+    <div class="food-day" data-date="<%= day.date %>">
+      <%= l Date.parse(day.date), format: :short %>
+      <div class="info"><%= day.info %></div>
+      <% if day.main.present? %>
+        <div class="main">Pääruoka: <%= day.main %></div>
+      <% end %>
+      <% if day.vegetable.present? %>
+        <div class="vegetable">Kasvisruoka: <%= day.vegetable %></div>
+      <% end %>
+      <% if day.side.present? %>
+        <div class="side">
+          Lisäksi:
+          <%= day.side.join(', ') %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+<% else %>
+  Ruokalistaa ei löydetty tälle viikolle.
 <% end %>

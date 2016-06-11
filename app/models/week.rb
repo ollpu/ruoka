@@ -1,6 +1,7 @@
 require 'ostruct'
 class Week < ApplicationRecord
   def self.find_or_create week_no
+    Date.strptime(week_no, '%Y:%W') # Raises ArgumentError if week_no is not valid
     week = self.find_by_week_no(week_no)
     if week.present?
       week
@@ -27,6 +28,12 @@ class Week < ApplicationRecord
     date = Date.current
     date += offset.weeks
     Week.find_by_week_no(date.strftime('%Y:%W'))
+  end
+  
+  def self.current_or_create offset = 0
+    date = Date.current
+    date += offset.weeks
+    Week.find_or_create(date.strftime('%Y:%W'))
   end
   
   def week_no_without_year
